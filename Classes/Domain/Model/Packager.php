@@ -39,10 +39,19 @@ class Tx_MootoolsEssentials_Domain_Model_Packager extends Packager implements t3
 	/*
 	 * @var array
 	 */
-	protected $files;
+	protected $files = array();
 
-	public function addFile($file) {
+	public function __construct() {}
 
+	public function addManifests($manifests) {
+		foreach ($manifests as $manifest) {
+			$this->add_package($manifest);
+		}
+	}
+
+	public function addFiles($files = array()) {
+		$files = $files ? $files : array();
+		$this->setFiles(array_merge($this->getFiles(), $files));
 	}
 
 	public function setFiles($files) {
@@ -54,7 +63,7 @@ class Tx_MootoolsEssentials_Domain_Model_Packager extends Packager implements t3
 	}
 
 	public function getCompleteFiles($files = NULL) {
-		$files = $files ? $files : $this->files;
+		$files = $files ? $files : $this->getFiles();
 		return $this->complete_files($files);
 	}
 
