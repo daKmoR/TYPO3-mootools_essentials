@@ -44,7 +44,7 @@ class Tx_MootoolsEssentials_ViewHelpers_LoadViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	public function render($file = NULL) {
 		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
-		$packager->addFiles(array($file));
+		$packager->addFile($file);
 		return '';
 	}
 	

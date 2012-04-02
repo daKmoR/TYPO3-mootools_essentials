@@ -44,7 +44,7 @@ class Tx_MootoolsEssentials_Controller_IncludeJsController extends Tx_Extbase_MV
 
 		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
 		$packager->addManifests($this->settings['manifests']);
-		$packager->addFiles($this->settings['files']);
+		$packager->addFiles($this->settings['load']['files']);
 
 		$files = $packager->getCompleteFiles();
 

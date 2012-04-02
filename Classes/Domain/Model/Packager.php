@@ -54,6 +54,10 @@ class Tx_MootoolsEssentials_Domain_Model_Packager extends Packager implements t3
 		$this->setFiles(array_merge($this->getFiles(), $files));
 	}
 
+	public function	addFile($file) {
+		$this->files[] = $file;
+	}
+
 	public function setFiles($files) {
 		$this->files = $files;
 	}
@@ -64,6 +68,7 @@ class Tx_MootoolsEssentials_Domain_Model_Packager extends Packager implements t3
 
 	public function getCompleteFiles($files = NULL) {
 		$files = $files ? $files : $this->getFiles();
+		$files = array_unique($files);
 		return $this->complete_files($files);
 	}
 

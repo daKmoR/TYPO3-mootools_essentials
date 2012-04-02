@@ -11,14 +11,6 @@ module.tx_mootoolsessentials {
 }
 
 plugin.tx_mootoolsessentials {
-	view {
-		templateRootPath = EXT:mootools_essentials/Resources/Private/Templates/
-		partialRootPath = EXT:mootools_essentials/Resources/Private/Partials/
-		layoutRootPath = EXT:mootools_essentials/Resources/Private/Layouts/
-	}
-	persistence {
-		storagePid = 
-	}
 	settings {
 		manifests {
 			10 = EXT:mootools_essentials/Resources/Public/Manifests/Core/
@@ -26,12 +18,18 @@ plugin.tx_mootoolsessentials {
 			30 = EXT:mootools_essentials/Resources/Public/Manifests/Behavior/
 			40 = EXT:mootools_essentials/Resources/Public/Manifests/MoreBehaviors/
 		}
+		load {
+			files {
+				# place your "files" to load here - for example
+				# 10 = Core/Request
+				# 20 = More/Fx.Accordion
+			}
+			componentes {
+
+			}
+		}
 	}
 }
-
-plugin.tx_mootoolsessentials._CSS_DEFAULT_STYLE (
-)
-
 
 page.483 = USER
 page.483 {
