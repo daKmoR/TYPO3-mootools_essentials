@@ -31,25 +31,19 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_MootoolsEssentials_Domain_Model_Behavior extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_MootoolsEssentials_Domain_Model_Package {
 
 	/**
-	 * name
-	 *
 	 * @var string
 	 */
 	protected $name;
 
 	/**
-	 * description
-	 *
 	 * @var string
 	 */
 	protected $description;
 
 	/**
-	 * Returns the name
-	 *
 	 * @return string $name
 	 */
 	public function getName() {
@@ -57,8 +51,6 @@ class Tx_MootoolsEssentials_Domain_Model_Behavior extends Tx_Extbase_DomainObjec
 	}
 
 	/**
-	 * Sets the name
-	 *
 	 * @param string $name
 	 * @return void
 	 */
@@ -67,8 +59,6 @@ class Tx_MootoolsEssentials_Domain_Model_Behavior extends Tx_Extbase_DomainObjec
 	}
 
 	/**
-	 * Returns the description
-	 *
 	 * @return string $description
 	 */
 	public function getDescription() {
@@ -76,8 +66,6 @@ class Tx_MootoolsEssentials_Domain_Model_Behavior extends Tx_Extbase_DomainObjec
 	}
 
 	/**
-	 * Sets the description
-	 *
 	 * @param string $description
 	 * @return void
 	 */

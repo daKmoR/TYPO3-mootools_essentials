@@ -34,20 +34,25 @@
 class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	 * behaviorRepository
-	 *
-	 * @var Tx_MootoolsEssentials_Domain_Repository_BehaviorRepository
+	 * @var t3lib_PageRenderer
 	 */
-	protected $behaviorRepository;
+	protected $pageRenderer;
 
 	/**
-	 * injectBehaviorRepository
+	 * @var integer
+	 */
+	protected $pageId;
+
+	/**
+	 * Initializes the controller before invoking an action method.
 	 *
-	 * @param Tx_MootoolsEssentials_Domain_Repository_BehaviorRepository $behaviorRepository
 	 * @return void
 	 */
-	public function injectBehaviorRepository(Tx_MootoolsEssentials_Domain_Repository_BehaviorRepository $behaviorRepository) {
-		$this->behaviorRepository = $behaviorRepository;
+	protected function initializeAction() {
+		// @todo Evaluate how the intval() call can be used with Extbase validators/filters
+		$this->pageId = intval(t3lib_div::_GP('id'));
+
+//		$this->pageRenderer->addInlineLanguageLabelFile('EXT:workspaces/Resources/Private/Language/locallang.xml');
 	}
 
 	/**
@@ -56,8 +61,47 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 	 * @return void
 	 */
 	public function listAction() {
-		$behaviors = $this->behaviorRepository->findAll();
+//		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
+//		$behaviors = $packager->getBehaviors();
+//		var_dump($behaviors);
+
 		$this->view->assign('behaviors', $behaviors);
+		//$this->view->assign('delegator', $delegators);
+		$output = $this->view->render();
+
+		foreach ($this->settings['manifests'] as $key => $manifest) {
+			$this->settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
+		}
+		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
+		$packager->addManifests($this->settings['manifests']);
+
+		$files = $packager->getCompleteFiles();
+		var_dump($files);
+
+		return $output;
+	}
+
+	/**
+	 * Processes a general request. The result can be returned by altering the given response.
+	 *
+	 * @param Tx_Extbase_MVC_RequestInterface $request The request object
+	 * @param Tx_Extbase_MVC_ResponseInterface $response The response, modified by this handler
+	 * @throws Tx_Extbase_MVC_Exception_UnsupportedRequestType if the controller doesn't support the current request type
+	 * @return void
+	 */
+	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
+		$this->template = t3lib_div::makeInstance('template');
+		$this->template->endJS = false;
+		$this->pageRenderer = $this->template->getPageRenderer();
+
+		$GLOBALS['SOBE'] = new stdClass();
+		$GLOBALS['SOBE']->doc = $this->template;
+
+		parent::processRequest($request, $response);
+
+		$pageHeader = $this->template->startpage('title', false);
+		$pageEnd = $this->template->endPage();
+		$response->setContent($pageHeader . $response->getContent() . $pageEnd);
 	}
 
 }

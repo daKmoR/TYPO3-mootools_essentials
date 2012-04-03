@@ -1,15 +1,4 @@
-# Module configuration
-module.tx_mootoolsessentials {
-	view {
-		templateRootPath = EXT:mootools_essentials/Resources/Private/Backend/Templates/
-		partialRootPath = EXT:mootools_essentials/Resources/Private/Backend/Partials/
-		layoutRootPath = EXT:mootools_essentials/Resources/Private/Backend/Layouts/
-	}
-	persistence {
-		storagePid = 
-	}
-}
-
+# plugin configuration
 plugin.tx_mootoolsessentials {
 	settings {
 		manifests {
@@ -29,6 +18,16 @@ plugin.tx_mootoolsessentials {
 			}
 		}
 	}
+}
+
+# Module configuration
+module.tx_mootoolsessentials {
+	view {
+		templateRootPath = EXT:mootools_essentials/Resources/Private/Backend/Templates/
+		partialRootPath = EXT:mootools_essentials/Resources/Private/Backend/Partials/
+		layoutRootPath = EXT:mootools_essentials/Resources/Private/Backend/Layouts/
+	}
+	settings < plugin.tx_mootoolsessentials.settings
 }
 
 page.483 = USER
