@@ -30,14 +30,14 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_MootoolsEssentials_Controller_IncludeJsController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_MootoolsEssentials_Controller_LoadController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
 	 * includes all needed Javascript
 	 *
 	 * @return void
 	 */
-	public function includeJsAction() {
+	public function loadAction() {
 		foreach ($this->settings['manifests'] as $key => $manifest) {
 			$this->settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
 		}

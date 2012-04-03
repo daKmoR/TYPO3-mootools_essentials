@@ -34,7 +34,5 @@ page.483 = USER
 page.483 {
 	userFunc = tx_extbase_core_bootstrap->run
 	extensionName = MootoolsEssentials
-	pluginName = Includejs
-	controller = IncludeJs
-	action = includeJs
+	pluginName = Loader
 }
