@@ -34,28 +34,6 @@
 class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	 * @var t3lib_PageRenderer
-	 */
-	protected $pageRenderer;
-
-	/**
-	 * @var integer
-	 */
-	protected $pageId;
-
-	/**
-	 * Initializes the controller before invoking an action method.
-	 *
-	 * @return void
-	 */
-	protected function initializeAction() {
-		// @todo Evaluate how the intval() call can be used with Extbase validators/filters
-		$this->pageId = intval(t3lib_div::_GP('id'));
-
-//		$this->pageRenderer->addInlineLanguageLabelFile('EXT:workspaces/Resources/Private/Language/locallang.xml');
-	}
-
-	/**
 	 * action list
 	 *
 	 * @return void
@@ -67,12 +45,6 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 
 		$this->view->assign('behaviors', $behaviors);
 		//$this->view->assign('delegator', $delegators);
-
-
-		$output = $this->view->render();
-		$loader = t3lib_div::makeInstance('Tx_MootoolsEssentials_Controller_LoadController');
-		$loader->load($this->settings);
-		return $output;
 	}
 
 	/**
@@ -86,7 +58,7 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
 		$this->template = t3lib_div::makeInstance('template');
 		$this->template->endJS = false;
-		$this->pageRenderer = $this->template->getPageRenderer();
+		//$this->pageRenderer = $this->template->getPageRenderer();
 
 		$GLOBALS['SOBE'] = new stdClass();
 		$GLOBALS['SOBE']->doc = $this->template;
@@ -96,6 +68,16 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 		$pageHeader = $this->template->startpage('title', false);
 		$pageEnd = $this->template->endPage();
 		$response->setContent($pageHeader . $response->getContent() . $pageEnd);
+	}
+
+	/**
+	 * After every ActionMethod call the Loader gets executed to add the needed files
+	 *
+	 */
+	protected function callActionMethod() {
+		parent::callActionMethod();
+		$loader = t3lib_div::makeInstance('Tx_MootoolsEssentials_Controller_LoadController');
+		$loader->load($this->settings);
 	}
 
 }
