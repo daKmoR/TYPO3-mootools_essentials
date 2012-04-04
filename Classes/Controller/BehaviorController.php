@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
-class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_MootoolsEssentials_Controller_BeActionController {
 
 	/**
 	 * action list
@@ -45,40 +45,9 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 
 		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
 		$packager->addManifests($this->settings['manifests']);
-		$behaviors = $packager->getBehaviors();
 
-		$this->view->assign('behaviors', $behaviors);
-		//$this->view->assign('delegator', $delegators);
-	}
-
-	/**
-	 * Before every ActionMethod create a proper template so you can use the pageRenderer
-	 * After every ActionMethod call the Loader to add the needed MooTools files
-	 *
-	 * @return void
-	 */
-	protected function callActionMethod() {
-		$this->template = t3lib_div::makeInstance('template');
-		$this->template->endJS = false;
-		$this->template->getPageRenderer();
-
-		$GLOBALS['SOBE'] = new stdClass();
-		$GLOBALS['SOBE']->doc = $this->template;
-
-		parent::callActionMethod();
-
-		// calling it after parent::callActionMethod won't allow for addJsFooter Stuff; before only allow addJsFooter Stuff :/
-		// so let's call it after, so you can use addCssFile(...)
-		$pageHeader = $this->template->startpage('title', false);
-
-		// startpage does reset inlineFooterJs :/ so we have to do the loading later
-		$loader = t3lib_div::makeInstance('Tx_MootoolsEssentials_Controller_LoadController');
-		$loader->load($this->settings);
-
-		// $pageEnd = $this->template->endPage(); // don't work as it usese the resetted inlineFooterJs stuff from startpage
-		$pageEnd = $this->template->getPageRenderer()->render(t3lib_PageRenderer::PART_FOOTER);
-
-		$this->response->setContent($pageHeader . $this->response->getContent() . $pageEnd);
+		$this->view->assign('behaviors', $packager->getBehaviors());
+		$this->view->assign('delegator', $packager->getDelegators());
 	}
 
 }
