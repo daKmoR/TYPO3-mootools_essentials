@@ -39,45 +39,46 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 	 * @return void
 	 */
 	public function listAction() {
-//		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
-//		$behaviors = $packager->getBehaviors();
-//		var_dump($behaviors);
+		foreach ($this->settings['manifests'] as $key => $manifest) {
+			$this->settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
+		}
+
+		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
+		$packager->addManifests($this->settings['manifests']);
+		$behaviors = $packager->getBehaviors();
 
 		$this->view->assign('behaviors', $behaviors);
 		//$this->view->assign('delegator', $delegators);
 	}
 
 	/**
-	 * Processes a general request. The result can be returned by altering the given response.
+	 * Before every ActionMethod create a proper template so you can use the pageRenderer
+	 * After every ActionMethod call the Loader to add the needed MooTools files
 	 *
-	 * @param Tx_Extbase_MVC_RequestInterface $request The request object
-	 * @param Tx_Extbase_MVC_ResponseInterface $response The response, modified by this handler
-	 * @throws Tx_Extbase_MVC_Exception_UnsupportedRequestType if the controller doesn't support the current request type
 	 * @return void
 	 */
-	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
+	protected function callActionMethod() {
 		$this->template = t3lib_div::makeInstance('template');
 		$this->template->endJS = false;
-		//$this->pageRenderer = $this->template->getPageRenderer();
+		$this->template->getPageRenderer();
 
 		$GLOBALS['SOBE'] = new stdClass();
 		$GLOBALS['SOBE']->doc = $this->template;
 
-		parent::processRequest($request, $response);
-
-		$pageHeader = $this->template->startpage('title', false);
-		$pageEnd = $this->template->endPage();
-		$response->setContent($pageHeader . $response->getContent() . $pageEnd);
-	}
-
-	/**
-	 * After every ActionMethod call the Loader gets executed to add the needed files
-	 *
-	 */
-	protected function callActionMethod() {
 		parent::callActionMethod();
+
+		// calling it after parent::callActionMethod won't allow for addJsFooter Stuff; before only allow addJsFooter Stuff :/
+		// so let's call it after, so you can use addCssFile(...)
+		$pageHeader = $this->template->startpage('title', false);
+
+		// startpage does reset inlineFooterJs :/ so we have to do the loading later
 		$loader = t3lib_div::makeInstance('Tx_MootoolsEssentials_Controller_LoadController');
 		$loader->load($this->settings);
+
+		// $pageEnd = $this->template->endPage(); // don't work as it usese the resetted inlineFooterJs stuff from startpage
+		$pageEnd = $this->template->getPageRenderer()->render(t3lib_PageRenderer::PART_FOOTER);
+
+		$this->response->setContent($pageHeader . $this->response->getContent() . $pageEnd);
 	}
 
 }

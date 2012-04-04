@@ -32,6 +32,11 @@
  */
 class Tx_MootoolsEssentials_Controller_LoadController extends Tx_Extbase_MVC_Controller_ActionController {
 
+	/*
+	 * @var Tx_MootoolsEssentials_Domain_Model_Packager
+	 */
+	protected $packager;
+
 	/**
 	 * includes all needed Javascript
 	 *
@@ -41,24 +46,36 @@ class Tx_MootoolsEssentials_Controller_LoadController extends Tx_Extbase_MVC_Con
 		$this->load($this->settings);
 		return '';
 	}
+
+	/**
+	 *
+	 */
+	public function __construct() {
+		$this->packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
+	}
+
+	/**
+	 * @param array $settings
+	 */
+	public function loadManifests($settings) {
+		foreach ($settings['manifests'] as $key => $manifest) {
+			$settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
+		}
+
+		$this->packager->addManifests($settings['manifests']);
+	}
 	
 	/**
 	 * @param array $settings
 	 */
 	public function load($settings) {
-		foreach ($settings['manifests'] as $key => $manifest) {
-			$settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
-		}
-
-		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
-		$packager->addManifests($settings['manifests']);
-		$packager->addFiles($settings['load']['files']);
-
-		$files = $packager->getCompleteFiles();
+		$this->loadManifests($settings);
+		$this->packager->addFiles($settings['load']['files']);
+		$files = $this->packager->getCompleteFiles();
 
 		$renderer = t3lib_div::makeInstance('t3lib_PageRenderer');
 		foreach ($files as $file) {
-			$renderer->addJsLibrary($file, $packager->getFilePath($file));
+			$renderer->addJsFooterLibrary($file, $this->packager->getFilePath($file));
 		}
 
 		if (in_array('Behavior/Behavior', $files)) {
