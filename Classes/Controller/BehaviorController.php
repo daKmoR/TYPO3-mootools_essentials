@@ -67,17 +67,11 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_Extbase_MVC
 
 		$this->view->assign('behaviors', $behaviors);
 		//$this->view->assign('delegator', $delegators);
+
+
 		$output = $this->view->render();
-
-		foreach ($this->settings['manifests'] as $key => $manifest) {
-			$this->settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
-		}
-		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
-		$packager->addManifests($this->settings['manifests']);
-
-		$files = $packager->getCompleteFiles();
-		var_dump($files);
-
+		$loader = t3lib_div::makeInstance('Tx_MootoolsEssentials_Controller_LoadController');
+		$loader->load($this->settings);
 		return $output;
 	}
 

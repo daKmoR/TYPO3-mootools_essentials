@@ -38,13 +38,21 @@ class Tx_MootoolsEssentials_Controller_LoadController extends Tx_Extbase_MVC_Con
 	 * @return void
 	 */
 	public function loadAction() {
-		foreach ($this->settings['manifests'] as $key => $manifest) {
-			$this->settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
+		$this->load($this->settings);
+		return '';
+	}
+	
+	/**
+	 * @param array $settings
+	 */
+	public function load($settings) {
+		foreach ($settings['manifests'] as $key => $manifest) {
+			$settings['manifests'][$key] = t3lib_div::getFileAbsFileName($manifest);
 		}
 
 		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
-		$packager->addManifests($this->settings['manifests']);
-		$packager->addFiles($this->settings['load']['files']);
+		$packager->addManifests($settings['manifests']);
+		$packager->addFiles($settings['load']['files']);
 
 		$files = $packager->getCompleteFiles();
 
@@ -64,7 +72,6 @@ class Tx_MootoolsEssentials_Controller_LoadController extends Tx_Extbase_MVC_Con
 				$renderer->addJsFooterInlineCode('delegatorAtBottom', "var myDelegator = new Delegator().attach(document.body);");
 			}
 		}
-		return '';
 	}
 
 }
