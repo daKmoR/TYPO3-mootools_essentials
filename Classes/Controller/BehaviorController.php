@@ -46,8 +46,9 @@ class Tx_MootoolsEssentials_Controller_BehaviorController extends Tx_MootoolsEss
 		$packager = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Packager');
 		$packager->addManifests($this->settings['manifests']);
 
-		$this->view->assign('behaviors', $packager->getBehaviors());
-		$this->view->assign('delegator', $packager->getDelegators());
+		$this->template->getPageRenderer()->addCssFile('../typo3conf/ext/mootools_essentials/Resources/Public/Backend/Css/screen.css');
+
+		$this->view->assign('packages', $packager->getBehaviorsAndDelegators());
 	}
 
 }

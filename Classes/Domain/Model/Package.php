@@ -36,18 +36,29 @@ class Tx_MootoolsEssentials_Domain_Model_Package {
 	/**
 	 * @var string
 	 */
-	protected $name;
+	protected $description;
 
 	/**
 	 * @var string
 	 */
-	protected $description;
+	protected $key;
+
+	/**
+	 * @var string
+	 */
+	protected $authors;
+
+	/**
+	 * @var string
+	 */
+	protected $path;
 
 	/**
 	 * @return string $name
 	 */
 	public function getName() {
-		return $this->name;
+		$parts = explode('/', $this->key);
+		return $parts[1];
 	}
 
 	/**
@@ -55,7 +66,8 @@ class Tx_MootoolsEssentials_Domain_Model_Package {
 	 * @return void
 	 */
 	public function setName($name) {
-		$this->name = $name;
+		$parts = explode('/', $this->key);
+		$this->key = $parts[0] . '/' . $name;
 	}
 
 	/**
@@ -71,6 +83,74 @@ class Tx_MootoolsEssentials_Domain_Model_Package {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+	}
+
+	/**
+	 * @param string $manifest
+	 */
+	public function setManifest($manifest) {
+		$parts = explode('/', $this->key);
+		$this->manifest = $manifest . '/' . $parts[1];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getManifest() {
+		$parts = explode('/', $this->key);
+		return $parts[0];
+	}
+
+	/**
+	 * @param string $key
+	 */
+	public function setKey($key) {
+		$this->key = $key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getKey() {
+		return $this->key;
+	}
+
+	/**
+	 * @param string $authors
+	 */
+	public function setAuthors($authors) {
+		$this->authors = $authors[0];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthors() {
+		return $this->authors;
+	}
+
+	public function getAuthor() {
+		preg_match_all('/\[(.*?)\]/', $this->getAuthors(), $matches);
+		return $matches[1][0];
+	}
+
+	public function getAuthorUrl() {
+		preg_match_all('/\((.*?)\)/', $this->getAuthors(), $matches);
+		return $matches[1][0];
+	}
+
+	/**
+	 * @param string $path
+	 */
+	public function setPath($path) {
+		$this->path = $path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPath() {
+		return $this->path;
 	}
 
 }

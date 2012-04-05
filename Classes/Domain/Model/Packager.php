@@ -87,21 +87,31 @@ class Tx_MootoolsEssentials_Domain_Model_Packager extends Packager implements t3
 		return $this->filterPackages('Delegator.');
 	}
 
+	public function getBehaviorsAndDelegators() {
+		return array_merge($this->getBehaviors(), $this->getDelegators());
+	}
+
+	public function getPackages() {
+		return $this->filterPackages();
+	}
+
 	protected function filterPackages($search = '') {
 		$results = array();
-		$packageNames = $this->get_all_files();
-		foreach ($packageNames as $packageName) {
-			if (strpos($packageName, $search) !== false) {
-				$results[] = $this->packageNameToObject($packageName);
+		$keys = $this->get_all_files();
+		foreach ($keys as $key) {
+			if (strpos($key, $search) !== false || $search === '') {
+				$results[] = $this->packageNameToObject($key);
 			}
 		}
 		return $results;
 	}
 
-	protected function packageNameToObject($packageName) {
+	protected function packageNameToObject($key) {
 		$package = t3lib_div::makeInstance('Tx_MootoolsEssentials_Domain_Model_Package');
-		$package->setName($packageName);
-		$package->setDescription($this->get_file_description($packageName));
+		$package->setKey($key);
+		$package->setAuthors($this->get_package_authors($package->getManifest()));
+		$package->setDescription($this->get_file_description($key));
+		$package->setPath($this->getFilePath($key));
 
 		return $package;
 	}

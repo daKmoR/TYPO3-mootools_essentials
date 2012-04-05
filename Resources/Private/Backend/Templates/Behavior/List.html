@@ -6,23 +6,20 @@
 
 <f:flashMessages />
 
-<table  class="tx_mootoolsessentials" >
-	<tr>
-		<th><f:translate key="tx_mootoolsessentials_domain_model_behavior.name" /></th>
-		<th><f:translate key="tx_mootoolsessentials_domain_model_behavior.description" /></th>
-		<th> </th>
-		<th> </th>
-	</tr>
-
-	<f:for each="{behaviors}" as="behavior">
-		<tr>
-			<td>{behavior.name}</td>
-			<td>{behavior.description}</td>
-		</tr>
+<div class="packages">
+	<f:for each="{packages}" as="package">
+		<div class="package">
+			<h3><a href="{package.path}">{package.key}</a></h3>
+			<p class="author">by <a href="{package.authorUrl}">{package.author}</a></p>
+			<p class="description">{package.description}</p>
+		</div>
 	</f:for>
-</table>
+	<br style="clear: both;" />
+</div>
 
-
+<br />
+<br />
+<br />
 <div>
 	<h2>Usage is always pretty much the same:</h2>
 	<ol>
