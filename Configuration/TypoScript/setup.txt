@@ -2,10 +2,10 @@
 plugin.tx_mootoolsessentials {
 	settings {
 		manifests {
-			10 = EXT:mootools_essentials/Resources/Public/Manifests/Core/
-			20 = EXT:mootools_essentials/Resources/Public/Manifests/More/
-			30 = EXT:mootools_essentials/Resources/Public/Manifests/Behavior/
-			40 = EXT:mootools_essentials/Resources/Public/Manifests/MoreBehaviors/
+			Core = EXT:mootools_essentials/Resources/Public/Manifests/Core/
+			More = EXT:mootools_essentials/Resources/Public/Manifests/More/
+			Behavior = EXT:mootools_essentials/Resources/Public/Manifests/Behavior/
+			More-Behaviors = EXT:mootools_essentials/Resources/Public/Manifests/MoreBehaviors/
 		}
 		load {
 			files {
@@ -17,6 +17,7 @@ plugin.tx_mootoolsessentials {
 
 			}
 		}
+		language = en-US
 	}
 }
 
