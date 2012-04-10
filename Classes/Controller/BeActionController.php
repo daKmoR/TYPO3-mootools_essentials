@@ -34,6 +34,9 @@
 class Tx_MootoolsEssentials_Controller_BeActionController extends Tx_Extbase_MVC_Controller_ActionController {
 	
 	/**
+	 * mimics some basic features of the frontend ts template
+	 * for now it just supports a basic includeCSS
+	 *
 	 * @param array $settings
 	 */
 	protected function mimicBasicTsTemplate($settings) {
