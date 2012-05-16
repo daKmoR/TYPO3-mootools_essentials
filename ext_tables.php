@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 Tx_Extbase_Utility_Extension::registerPlugin(
 	$_EXTKEY,
-	'Includejs',
+	'Loader',
 	'include Javascript files and code'
 );
 

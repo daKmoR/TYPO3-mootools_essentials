@@ -5,14 +5,14 @@ if (!defined('TYPO3_MODE')) {
 
 Tx_Extbase_Utility_Extension::configurePlugin(
 	$_EXTKEY,
-	'Includejs',
+	'Loader',
 	array(
-		'IncludeJs' => 'includeJs',
+		'Load' => 'load',
 		
 	),
 	// non-cacheable actions
 	array(
-		'IncludeJs' => 'includeJs',
+		'IncludeJs' => '',
 		
 	)
 );
