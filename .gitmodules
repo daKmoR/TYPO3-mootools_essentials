@@ -10,3 +10,6 @@
 [submodule "Resources/Public/Manifests/Core"]
 	path = Resources/Public/Manifests/Core
 	url = git@github.com:daKmoR/mootools-core.git
+[submodule "Resources/Public/Manifests/More"]
+	path = Resources/Public/Manifests/More
+	url = git@github.com:daKmoR/mootools-more.git
