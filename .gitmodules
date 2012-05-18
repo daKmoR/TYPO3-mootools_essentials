@@ -4,3 +4,6 @@
 [submodule "Resources/Public/Manifests/Behavior"]
 	path = Resources/Public/Manifests/Behavior
 	url = https://github.com/anutron/behavior.git
+[submodule "Resources/Public/Manifests/MoreBehaviors"]
+	path = Resources/Public/Manifests/MoreBehaviors
+	url = https://github.com/anutron/more-behaviors.git
