@@ -1,3 +1,6 @@
 [submodule "Resources/Private/Php/Packager"]
 	path = Resources/Private/Php/Packager
 	url = https://github.com/kamicane/packager.git
+[submodule "Resources/Public/Manifests/Behavior"]
+	path = Resources/Public/Manifests/Behavior
+	url = https://github.com/anutron/behavior.git
