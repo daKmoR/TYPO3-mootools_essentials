@@ -7,3 +7,6 @@
 [submodule "Resources/Public/Manifests/MoreBehaviors"]
 	path = Resources/Public/Manifests/MoreBehaviors
 	url = https://github.com/anutron/more-behaviors.git
+[submodule "Resources/Public/Manifests/Core"]
+	path = Resources/Public/Manifests/Core
+	url = git@github.com:daKmoR/mootools-core.git
