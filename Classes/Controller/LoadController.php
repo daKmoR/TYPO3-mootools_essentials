@@ -78,7 +78,7 @@ class Tx_MootoolsEssentials_Controller_LoadController extends Tx_Extbase_MVC_Con
 			$renderer->addJsFooterLibrary($file->getKey(), $file->getPath($file));
 			$cssFileArray = $file->getCssFile();
 
-			$path = $settings['manifests'][$cssFileArray['manifest']] . $cssFileArray['path'];
+			$path = is_array($cssFileArray) && array_key_exists($cssFileArray, 'manifest') && array_key_exists($cssFileArray, 'path') ? $settings['manifests'][$cssFileArray['manifest']] . $cssFileArray['path'] : '';
 			if ($path !== '') {
 				$path = t3lib_div::getFileAbsFileName($path);
 				$path = substr($path, strpos($path, 'typo3conf/ext'));
